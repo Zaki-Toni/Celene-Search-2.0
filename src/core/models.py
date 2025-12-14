@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Any  # 'Any' es el único que aún requiere importación
+from typing import Any
 
 
 @dataclass
