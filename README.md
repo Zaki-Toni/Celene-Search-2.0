@@ -39,7 +39,7 @@ El proyecto sigue una estructura de capas estricta:
 
 ## 📂 Estructura del Proyecto
 
-semantic_search_engine/
+```semantic_search_engine/
 │
 ├── data/                       # 🗄️ CAPA DE DATOS (Ignorada por Git excepto .keep)
 │   ├── documents/              # Aquí pones tus archivos (.txt, .pdf, .docx, .html)
