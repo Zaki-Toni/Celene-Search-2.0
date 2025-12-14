@@ -31,20 +31,17 @@ class POSTagger(INLPComponent):
         return nltk.pos_tag(tokens)
 
 # --- 4. Expansor de WordNet (El Cerebro) ---
+
 class WordNetExpander(INLPComponent):
     """Busca sinónimos en WordNet."""
 
     def _get_wordnet_pos(self, treebank_tag: str) -> str | None:
-        if treebank_tag.startswith('J'):
-            return wordnet.ADJ
-        elif treebank_tag.startswith('V'):
-            return wordnet.VERB
-        elif treebank_tag.startswith('N'):
-            return wordnet.NOUN
-        elif treebank_tag.startswith('R'):
-            return wordnet.ADV
-        else:
-            return None
+        # ... (esto déjalo igual) ...
+        if treebank_tag.startswith('J'): return wordnet.ADJ
+        elif treebank_tag.startswith('V'): return wordnet.VERB
+        elif treebank_tag.startswith('N'): return wordnet.NOUN
+        elif treebank_tag.startswith('R'): return wordnet.ADV
+        else: return None
 
     def process(self, tagged_tokens: list[Tuple[str, str]]) -> list[str]:
         expanded_terms: set[str] = set()
@@ -54,18 +51,18 @@ class WordNetExpander(INLPComponent):
             
             wn_tag = self._get_wordnet_pos(tag)
             
-            # Buscamos sinónimos
+            # 1. Intento Principal: Buscar respetando la categoría gramatical detectada
             synsets = wordnet.synsets(word, pos=wn_tag, lang='spa')
             
-            if not synsets and wn_tag is None:
+            # 2. Plan B (Fallback): 
+            # Si la búsqueda estricta no trajo nada (quizás el POS tagger se equivocó),
+            # buscamos la palabra en CUALQUIER categoría (verbo, sustantivo, adj...)
+            if not synsets:
                 synsets = wordnet.synsets(word, lang='spa')
 
             for syn in synsets:
-                # --- SOLUCIÓN DEL ERROR PYLANCE ---
-                # Casteamos 'syn' a Any. Esto apaga el linter para esta variable.
-                # Le decimos: "Trata a syn_obj como cualquier cosa, yo sé que tiene .lemmas"
+                # Casteamos a Any para evitar error de Pylance
                 syn_obj = cast(Any, syn)
-                
                 for lemma in syn_obj.lemmas('spa'):
                     clean_lemma = lemma.name().replace('_', ' ')
                     expanded_terms.add(clean_lemma)
