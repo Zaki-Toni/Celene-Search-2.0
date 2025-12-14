@@ -39,20 +39,66 @@ El proyecto sigue una estructura de capas estricta:
 
 ## 📂 Estructura del Proyecto
 
-```text
-Celene-Search 2.0/
+semantic_search_engine/
 │
-├── data/
-│   └── documents/          # 📄 ¡Pon tus archivos ????? aquí!
+├── data/                       # 🗄️ CAPA DE DATOS (Ignorada por Git excepto .keep)
+│   ├── documents/              # Aquí pones tus archivos (.txt, .pdf, .docx, .html)
+│   │   ├── articulo_ia.pdf
+│   │   ├── notas_clase.docx
+│   │   └── prueba.txt
+│   │
+│   └── index_storage/          # Aquí Whoosh guardará sus archivos binarios (generado auto)
 │
-├── src/
-│   ├── core/               # Interfaces y contratos (IIndexReader, etc.)
-│   ├── indexing/           # Lógica de carga y escritura en Whoosh
-│   ├── nlp/                # Pipeline, Tokenizer, WordNet Expander
-│   ├── web/                # ?????????
-│   └── services/           # Orquestadores (SearchService)
+├── src/                        # 🧠 CÓDIGO FUENTE PRINCIPAL
+│   ├── __init__.py
+│   │
+│   ├── core/                   # 1. CAPA DE MODELOS Y CONTRATOS (Interfaces)
+│   │   ├── __init__.py
+│   │   ├── models.py           # DTOs: Document, SearchResult, ExpandedQuery
+│   │   └── interfaces.py       # Clases Abstractas: IIndexReader, IIndexWriter, INLPComponent
+│   │
+│   ├── domain_nlp/             # 2. CAPA DE DOMINIO (Lógica Lingüística)
+│   │   ├── __init__.py
+│   │   ├── pipeline.py         # Clase NLPPipeline (Orquestador)
+│   │   └── components.py       # Tokenizer, StopwordFilter, POSTagger, WordNetExpander
+│   │
+│   ├── infrastructure/         # 3. CAPA DE INFRAESTRUCTURA (Implementación Técnica)
+│   │   ├── __init__.py
+│   │   │
+│   │   ├── fs/                 # File System (Lectura de archivos)
+│   │   │   ├── __init__.py
+│   │   │   ├── loader.py       # FileDocumentLoader (Usa los extractores)
+│   │   │   └── extractors.py   # PDFExtractor, DocxExtractor, HTMLExtractor (Strategy)
+│   │   │
+│   │   └── search_engine/      # Motor de Búsqueda (Whoosh)
+│   │       ├── __init__.py
+│   │       ├── adapter.py      # WhooshAdapter (Config y Schema)
+│   │       ├── writer.py       # WhooshWriter
+│   │       └── reader.py       # WhooshReader
+│   │
+│   ├── services/               # 4. CAPA DE APLICACIÓN (Orquestadores)
+│   │   ├── __init__.py
+│   │   ├── search_service.py   # Coordina: Query -> NLP -> Reader -> Result
+│   │   └── index_service.py    # Coordina: Docs -> Loader -> Writer
+│   │
+│   └── web/                    # 5. CAPA DE PRESENTACIÓN (Flask)
+│       ├── __init__.py         # Crea la 'app' de Flask
+│       ├── routes.py           # Endpoints: /, /search
+│       ├── static/             # CSS, Imágenes, JS
+│       │   └── style.css
+│       └── templates/          # HTML (Jinja2)
+│           ├── base.html
+│           ├── index.html
+│           └── results.html
 │
-├── index_storage/          # 🗄️ Índice generado automáticamente
-├── app.py                  # Punto de entrada de la aplicación Web
-├── indexer_script.py       # Script para ejecutar la indexación
-└── requirements.txt        # Librerías necesarias
+├── tests/                      # 🧪 PRUEBAS UNITARIAS
+│   ├── __init__.py
+│   ├── test_nlp.py
+│   └── test_extractors.py
+│
+├── .gitignore                  # Archivos a ignorar (venv, pycache, index_storage)
+├── config.py                   # Variables globales (Rutas, Idioma, etc.)
+├── requirements.txt            # Dependencias (Flask, Whoosh, NLTK, pypdf...)
+├── README.md                   # Documentación del proyecto
+├── manage_index.py             # Script CLI para ejecutar la indexación
+└── run_server.py               # Script CLI para iniciar el servidor Web
