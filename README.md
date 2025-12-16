@@ -102,3 +102,34 @@ El proyecto sigue una estructura de capas estricta:
 ├── README.md                   # Documentación del proyecto
 ├── manage_index.py             # Script CLI para ejecutar la indexación
 └── run_server.py               # Script CLI para iniciar el servidor Web
+
+
+
+## ⚙️ Configuración del Entorno
+
+Sigue estos pasos para reproducir el entorno de desarrollo y ejecutar el proyecto localmente.
+
+### 1. Requisitos Previos
+*   **Python 3.10** o superior (Necesario para el sistema de tipado moderno).
+*   **pip** (Gestor de paquetes).
+
+### 2. Creación del Entorno Virtual
+Es recomendable crear un entorno aislado para evitar conflictos.
+
+*   **Linux / Mac:**
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate
+    ```
+*   **Windows:**
+    ```powershell
+    python -m venv venv
+    venv\Scripts\activate
+    ```
+
+### 3. Instalación de Librerías
+Instala directamente las dependencias necesarias para el servidor web, el motor de búsqueda, NLP y el procesamiento de archivos:
+
+```bash
+pip install Flask Whoosh nltk pypdf python-docx beautifulsoup4
+python -m nltk.downloader punkt punkt_tab stopwords averaged_perceptron_tagger averaged_perceptron_tagger_eng wordnet omw-1.4
