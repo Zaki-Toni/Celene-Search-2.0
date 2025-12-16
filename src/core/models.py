@@ -11,7 +11,6 @@ class Document:
     title: str
     content: str
     path: str
-    # Uso de dict[] nativo
     metadata: dict[str, Any] = field(default_factory=dict)
 
 
@@ -34,12 +33,23 @@ class ExpandedQuery:
     """
 
     original_text: str
-    # Uso de list[] nativo
     expanded_terms: list[str]
 
     def to_boolean_query(self) -> str:
         """
-        Convierte la lista de términos en un string OR para Whoosh.
+        Genera una consulta booleana utilizando los términos expandidos.
+
+        Procesa la lista `expanded_terms` para crear una única cadena de búsqueda
+        donde todos los términos están unidos por el operador lógico OR. Cada término
+        se encierra entre comillas dobles para forzar una coincidencia de frase exacta
+        (o palabra exacta, dependiendo de la configuración del analizador).
+
+        Si `expanded_terms` está vacío o solo contiene cadenas vacías después de la limpieza,
+        devuelve el valor de `original_text`.
+
+        Returns:
+            str: La cadena de consulta booleana lista para ser usada por un motor
+                 como Whoosh (ej: '"término1" OR "término2"').
         """
         clean_terms = [t.replace('"', "") for t in self.expanded_terms if t.strip()]
 

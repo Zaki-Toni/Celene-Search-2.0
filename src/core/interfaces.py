@@ -13,6 +13,7 @@ class IIndexWriter(abc.ABC):
 
     @abc.abstractmethod
     def commit(self) -> None:
+        """Garantiza que todos los documentos se escriban persistentemente en el índice."""
         pass
 
 

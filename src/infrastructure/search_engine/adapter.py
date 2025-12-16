@@ -16,8 +16,8 @@ class WhooshAdapter:
         self.index_dir = index_dir
         # Definimos el esquema de la base de datos:
         # - title: Texto indexable y almacenado.
-        # - content: Texto indexable y almacenado (para snippets). Analizador Estándar.
-        # - path: ID único, almacenado pero no analizado (se guarda tal cual).
+        # - content: Texto indexable y almacenado. Analizador Estándar.
+        # - path: ID único, almacenado pero no analizado.
         self.schema = Schema(
             title=TEXT(stored=True),
             content=TEXT(stored=True, analyzer=StandardAnalyzer()),

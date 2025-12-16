@@ -2,6 +2,7 @@ from src.core.interfaces import IIndexWriter
 from src.core.models import Document
 from src.infrastructure.search_engine.adapter import WhooshAdapter
 
+###CAMBIAR DEBUG A LOGGIN
 
 class WhooshWriter(IIndexWriter):
     """
@@ -11,7 +12,6 @@ class WhooshWriter(IIndexWriter):
     def __init__(self, adapter: WhooshAdapter):
         self.adapter = adapter
         self.ix = adapter.get_index()
-        # Creamos un 'writer' de Whoosh. Es importante hacer commit al final.
         self._writer = self.ix.writer()
 
     def add_documents(self, docs: list[Document]) -> None:
@@ -32,9 +32,7 @@ class WhooshWriter(IIndexWriter):
         """
         try:
             self._writer.commit()
-            # Reiniciamos el writer para futuras escrituras
             self._writer = self.ix.writer()
         except Exception as e:
             print(f"Error en commit: {e}")
-            # Si falla, cancelamos para no corromper el índice
             self._writer.cancel()

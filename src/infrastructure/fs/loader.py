@@ -3,7 +3,8 @@ import os
 from src.core.interfaces import BaseExtractor
 from src.core.models import Document
 
-# Importamos las clases concretas que acabamos de crear
+####DEBEMOS USAR LOGGIN EN LUGAR DE PRINT
+
 from src.infrastructure.fs.extractors import (
     DocxExtractor,
     HTMLExtractor,
@@ -58,7 +59,7 @@ class FileDocumentLoader:
             if ext in self._extractors:
                 extractor = self._extractors[ext]
 
-                # Usamos el extractor (Polimorfismo en acción)
+                # Usamos el extractor
                 content = extractor.get_text(file_path)
 
                 if content:
@@ -73,7 +74,8 @@ class FileDocumentLoader:
                 else:
                     print(f"⚠️  Archivo vacío o corrupto: {filename}")
             else:
-                # Opcional: Avisar de archivos ignorados
+                # Cositas para hacer luego
+                # Avisar de archivos ignorados
                 # print(f"Ignorando formato no soportado: {filename}")
                 pass
 

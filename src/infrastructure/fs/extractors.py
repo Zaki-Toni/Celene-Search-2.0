@@ -2,6 +2,8 @@ from bs4 import BeautifulSoup
 from docx import Document as DocxReader
 from pypdf import PdfReader
 
+####DEBEMOS MEJORARA LOS EXTRACTORES PARA QUE USEN LOGGIN EN LUGAR DE PRINT
+
 # Importamos la interfaz que deben cumplir
 from src.core.interfaces import BaseExtractor
 

@@ -37,10 +37,8 @@ class WhooshReader(IIndexReader):
                         or cast(str, hit.get("content", ""))[:200]
                     )
 
-                    # --- CORRECCIÓN DEL ERROR DE TIPADO EN SCORE ---
-                    # 1. Obtenemos el score crudo.
-                    # 2. Si es None, usamos 0.0.
-                    # 3. Forzamos la conversión a float para calmar al linter.
+                    
+                    # Forzamos la conversión a float para calmar al linter.
                     raw_score = hit.score
                     safe_score: float = (
                         float(raw_score) if raw_score is not None else 0.0
@@ -49,7 +47,7 @@ class WhooshReader(IIndexReader):
                     result = SearchResult(
                         title=cast(str, hit.get("title", "Sin título")),
                         path=cast(str, hit.get("path", "")),
-                        score=safe_score,  # Ahora pasamos un float seguro
+                        score=safe_score,
                         snippet=snippet,
                     )
                     results_list.append(result)
