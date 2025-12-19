@@ -84,8 +84,8 @@ El proyecto sigue una estructura de capas estricta:
 │   └── web/                    # 5. CAPA DE PRESENTACIÓN (Flask)
 │       ├── __init__.py         # Crea la 'app' de Flask
 │       ├── routes.py           # Endpoints: /, /search
-│       ├── static/             # CSS, Imágenes, JS
-│       │   └── style.css
+│       |
+│       │  
 │       └── templates/          # HTML (Jinja2)
 │           ├── base.html
 │           ├── index.html
