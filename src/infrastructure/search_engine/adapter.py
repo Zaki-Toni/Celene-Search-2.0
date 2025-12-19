@@ -1,9 +1,8 @@
 import os
 import shutil
-
-from whoosh.analysis import StandardAnalyzer
 from whoosh.fields import ID, TEXT, Schema
 from whoosh.index import Index, create_in, exists_in, open_dir
+from src.infrastructure.search_engine.analyzer import NLTKAnalyzer 
 
 
 class WhooshAdapter:
@@ -20,7 +19,7 @@ class WhooshAdapter:
         # - path: ID único, almacenado pero no analizado.
         self.schema = Schema(
             title=TEXT(stored=True),
-            content=TEXT(stored=True, analyzer=StandardAnalyzer()),
+            content=TEXT(stored=True, analyzer=NLTKAnalyzer(stopwords_lang='english')),
             path=ID(stored=True, unique=True),
         )
 

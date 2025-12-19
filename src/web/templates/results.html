@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        
+        <!-- Barra de búsqueda superior -->
+        <form action="/search" method="get" class="mb-4 d-flex">
+            <input type="text" name="q" value="{{ query }}" class="form-control me-2" placeholder="Buscar...">
+            <button type="submit" class="btn btn-outline-primary">Buscar</button>
+        </form>
+
+        <h5 class="text-muted mb-4">Resultados para: <strong>"{{ query }}"</strong></h5>
+
+        {% if not results %}
+            <div class="alert alert-warning text-center">
+                <i class="bi bi-exclamation-circle"></i> No se encontraron documentos para tu búsqueda.
+                <br><small>Intenta con sinónimos o verifica que hayas indexado documentos.</small>
+            </div>
+        {% else %}
+            
+            {% for res in results %}
+            <div class="card result-card">
+                <div class="card-body p-0">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <h4 class="card-title">
+                            <a href="#" class="text-decoration-none text-primary">{{ res.title }}</a>
+                        </h4>
+                        <span class="badge bg-success rounded-pill">Score: {{ "%.2f"|format(res.score) }}</span>
+                    </div>
+                    
+                    <p class="card-text text-muted small mb-2">
+                        <i class="bi bi-folder2-open"></i> {{ res.path }}
+                    </p>
+                    
+                    <!-- Snippet con resaltado (HTML seguro) -->
+                    <p class="card-text">
+                        ...{{ res.snippet | safe }}...
+                    </p>
+                </div>
+            </div>
+            {% endfor %}
+
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
