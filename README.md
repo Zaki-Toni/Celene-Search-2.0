@@ -3,7 +3,7 @@
 
 > ⚠️ **Estado del Proyecto:** **Completado / En Stand-by**
 >
-> Este proyecto ha alcanzado satisfactoriamente los objetivos establecidos para su propósito académico. Actualmente, el desarrollo activo se encuentra pausado para dar prioridad a otros proyectos. Sin embargo, la arquitectura está diseñada para ser escalable y podríamos retomar futuras implementaciones (ver *Trabajo Futuro*) más adelante.
+> Este proyecto ha alcanzado satisfactoriamente los objetivos establecidos para su propósito académico. Actualmente, el desarrollo activo se encuentra pausado para dar prioridad a otros proyectos. Sin embargo, la arquitectura está diseñada para ser escalable y podríamos retomar futuras implementaciones.
 
 > Un sistema de Recuperación de Información (IR) inteligente que utiliza **WordNet** para entender lo que buscas, no solo lo que escribes.
 
